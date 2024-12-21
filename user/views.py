@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import get_user_model
 #from django.db.models import Prefetch
 
 from user.forms import UserLoginForm, UserRegistrationForm, ProfileForm
@@ -12,28 +13,25 @@ def login(request):
     if request.method == 'POST':
         form = UserLoginForm(data=request.POST)
         if form.is_valid():
-            username = request.POST['username']
-            password = request.POST['password']
-            user = auth.authenticate(username=username, password=password)
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = auth.authenticate(request, username=username, password=password)
 
-
-
-            if user:
+            if user is not None:
                 auth.login(request, user)
                 messages.success(request, f"{username}, Вы вошли в аккаунт")
 
-
-
                 redirect_page = request.POST.get('next', None)
                 if redirect_page and redirect_page != reverse('user:logout'):
-                    return HttpResponseRedirect(request.POST.get('next'))
+                    return HttpResponseRedirect(redirect_page)
 
                 return HttpResponseRedirect(reverse('recipes:index'))
+            else:
+                messages.error(request, "Неверное имя пользователя или пароль.")
     else:
         form = UserLoginForm()
 
     context = {
-
         'title': 'Авторизация',
         'form': form
     }

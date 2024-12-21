@@ -1,9 +1,11 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm
 from user.models import User
-
+from django.contrib.auth import get_user_model
 
 class UserLoginForm(AuthenticationForm):
+    username = forms.CharField(label='Имя пользователя')
+    password = forms.CharField(label='Пароль', widget=forms.PasswordInput)
     """Форма для входа пользователя."""
 
     class Meta:
@@ -16,8 +18,9 @@ class UserLoginForm(AuthenticationForm):
         self.fields['username'].widget.attrs.update({'class': 'form-control'})
         self.fields['password'].widget.attrs.update({'class': 'form-control'})
 
-
+User = get_user_model()
 class UserRegistrationForm(UserCreationForm):
+
     """Форма для регистрации пользователя."""
 
     class Meta:
