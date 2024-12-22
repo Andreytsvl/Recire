@@ -8,35 +8,47 @@
 </head>
 <body>
     <h1>Создание нового рецепта</h1>
-    <form method="POST" action="{% url 'rec:create_recipe' %}" enctype="multipart/form-data">
+    <form method="POST" action="{% url 'recipes:create_recipe' %}" enctype="multipart/form-data">
         {% csrf_token %}
 
-        <label for="title">Название рецепта:</label>
-        <input type="text" name="title" id="title" required>
-        <br><br>
+        <div class="form-group">
+            <label for="title">Название рецепта:</label>
+            <input type="text" name="title" id="title" class="form-control" required>
+        </div>
 
-        <label for="description">Описание:</label>
-        <textarea name="description" id="description" rows="4" required></textarea>
-        <br><br>
+        <div class="form-group">
+            <label for="description">Описание:</label>
+            <textarea name="description" id="description" rows="4" class="form-control" required></textarea>
+        </div>
 
-        <label for="instructions">Шаги приготовления:</label>
-        <textarea name="instructions" id="instructions" rows="6" required></textarea>
-        <br><br>
+        <div class="form-group">
+            <label for="preparation_steps">Шаги приготовления:</label>
+            <textarea name="preparation_steps" id="preparation_steps" rows="6" class="form-control" required></textarea>
+        </div>
 
-        <label for="prep_time">Время приготовления (в минутах):</label>
-        <input type="number" name="prep_time" id="prep_time" required>
-        <br><br>
+        <div class="form-group">
+            <label for="cooking_time">Время приготовления (в минутах):</label>
+            <input type="number" name="cooking_time" id="cooking_time" class="form-control" required>
+        </div>
 
-        <label for="image">Изображение:</label>
-        <input type="file" name="image" id="image" accept="image/*">
-        <br><br>
+        <div class="form-group">
+            <label for="image">Изображение:</label>
+            <input type="file" name="image" id="image" class="form-control-file" accept="image/*">
+        </div>
 
-        <input type="hidden" name="author" value="{{ user.username }}"> <!-- Предполагаем, что пользователь аутентифицирован -->
+        <div class="form-group">
+            <label for="categories">Категории:</label>
+            <select name="categories" id="categories" class="form-control" multiple required>
+                {% for category in categories %}
+                    <option value="{{ category.id }}">{{ category.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
 
-        <button type="submit">Сохранить рецепт</button>
+        <button type="submit" class="btn btn-primary">Сохранить рецепт</button>
     </form>
 
     <br><br>
-    <a href="{% url 'user:profile' %}">Назад к профилю</a>
+    <a href="{% url 'user:profile' %}" class="btn btn-secondary">Назад к профилю</a>
 </body>
-{% endblock  %}
+{% endblock %}

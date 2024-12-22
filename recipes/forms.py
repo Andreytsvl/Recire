@@ -1,5 +1,5 @@
 from django import forms
-from recipes.models import Recipe
+from recipes.models import Recipe, Category
 
 class RecipeForm(forms.ModelForm):
     class Meta:
@@ -17,6 +17,17 @@ class RecipeForm(forms.ModelForm):
 
 
 class CreateRecipeForm(forms.ModelForm):
+    categories = forms.ModelMultipleChoiceField(
+        queryset=Category.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+        required=True,
+        label="Категории"
+    )
+
     class Meta:
         model = Recipe
-        fields = ['title', 'description']
+        fields = ['title', 'description', 'preparation_steps', 'cooking_time', 'image', 'categories']
+        widgets = {
+            'preparation_steps': forms.Textarea(attrs={'rows': 6}),
+            'description': forms.Textarea(attrs={'rows': 4}),
+        }
