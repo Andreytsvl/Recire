@@ -8,3 +8,13 @@ body {
   height: 100%;
 }
 
+.recipe-description, .recipe-steps {
+    max-height: 200px; /* Ограничиваем высоту */
+    overflow-y: auto; /* Добавляем вертикальную прокрутку */
+    overflow-x: hidden; /* Убираем горизонтальную прокрутку */
+    border: 1px solid #ccc; /* Добавляем рамку для визуального разделения */
+    padding: 10px; /* Добавляем отступы */
+    margin-bottom: 20px; /* Добавляем отступ снизу */
+    white-space: normal; /* Разрешаем перенос строк */
+}
+

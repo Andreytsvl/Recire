@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Редактирование рецепта</h1>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="form-group">
+        <label for="{{ form.title.id_for_label }}">Название рецепта:</label>
+        {{ form.title }}
+    </div>
+
+    <div class="form-group">
+        <label for="{{ form.description.id_for_label }}">Описание:</label>
+        {{ form.description }}
+    </div>
+
+    <div class="form-group">
+        <label for="{{ form.preparation_steps.id_for_label }}">Шаги приготовления:</label>
+        {{ form.preparation_steps }}
+    </div>
+
+    <div class="form-group">
+        <label for="{{ form.cooking_time.id_for_label }}">Время приготовления (в минутах):</label>
+        {{ form.cooking_time }}
+    </div>
+
+    <div class="form-group">
+        <label for="{{ form.image.id_for_label }}">Изображение:</label>
+        {{ form.image }}
+    </div>
+
+    <div class="form-group">
+        <label for="{{ form.categories.id_for_label }}">Категории:</label>
+        {{ form.categories }}
+    </div>
+
+    <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+</form>
+<br>
+<a href="{% url 'recipes:list_recipes' %}" class="btn btn-secondary">Назад к списку рецептов</a>
+{% endblock %}
